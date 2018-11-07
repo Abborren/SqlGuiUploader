@@ -176,21 +176,23 @@ namespace WindowsFormsApp1
             string[] firstLine = fileParts[0].Split('\t');
             // First Parses Away unkown characters and replaces , with .  then splits at tab
             string[] secondLine = ParseUnkownChar(fileParts[1]).Split('\t');
-            for (int i = 0; i < firstLine.Length; i++)
+            for (int j = 0; j < items.Length; j++)
             {
-                for (int j = 0; j < items.Length; j++)
+                for (int i = 0; i < firstLine.Length; i++)
                 {
-                    if (firstLine[i] == items[j])
+                    
+                        if (firstLine[i] == items[j])
+                        {
+                            output[arrayOffset] = secondLine[i];
+                            arrayOffset++;
+                            
+                            break;
+                        }
+                    
+                    if (arrayOffset >= items.Length )
                     {
-                        output[arrayOffset] = secondLine[i];
-                        arrayOffset++;
-                        
                         break;
                     }
-                }
-                if (arrayOffset >= items.Length )
-                {
-                    break;
                 }
             }
             return output;
