@@ -3,7 +3,7 @@ using MySql.Data.MySqlClient;
 
 namespace WindowsFormsApp1
 {
-    public class DbConnection
+    public class _DbConnection
     {
         public MySqlConnection Connect()
         {
