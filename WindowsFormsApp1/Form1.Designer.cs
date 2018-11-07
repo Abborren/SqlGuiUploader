@@ -147,41 +147,33 @@ namespace WindowsFormsApp1
         
         private string[] ProccessFile(string[] fileParts)
         {
-            try
+           int arrayOffset = 0;
+            string[] items = {"Mj�lkningar senaste 24 tim",
+                "Mj�lkm�ngd senaste 24 tim", 
+                "Genomsn. mj�lkm�ngd per mj�lkning senaste 24 tim"};
+            string[] output = new string[items.Length];
+            // Splits string at tab.
+            string[] firstLine = fileParts[0].Split('\t');
+            // First Parses Away unkown characters and replaces , with .  then splits at tab
+            string[] secondLine = ParseUnkownChar(fileParts[1]).Split('\t');
+            for (int i = 0; i < firstLine.Length; i++)
             {
-                int arrayOffset = 0;
-                string[] items = {"Mj�lkningar senaste 24 tim",
-                    "Mj�lkm�ngd senaste 24 tim", 
-                    "Genomsn. mj�lkm�ngd per mj�lkning senaste 24 tim"};
-                string[] output = new string[items.Length];
-                // Splits string at tab.
-                string[] firstLine = fileParts[0].Split('\t');
-                // First Parses Away unkown characters and replaces , with .  then splits at tab
-                string[] secondLine = ParseUnkownChar(fileParts[1]).Split('\t');
-                for (int i = 0; i < firstLine.Length; i++)
+                for (int j = 0; j < items.Length; j++)
                 {
-                    for (int j = 0; j < items.Length; j++)
+                    if (firstLine[i] == items[j])
                     {
-                        if (firstLine[i] == items[j])
-                        {
-                            output[arrayOffset] = secondLine[i];
-                            arrayOffset++;
-                            
-                            break;
-                        }
-                    }
-                    if (arrayOffset >= 3 )
-                    {
+                        output[arrayOffset] = secondLine[i];
+                        arrayOffset++;
+                        
                         break;
                     }
                 }
-                return output;
+                if (arrayOffset >= items.Length )
+                {
+                    break;
+                }
             }
-            catch (Exception e)
-            {   
-                throw new IndexOutOfRangeException("Index ran away");
-            }
-            
+            return output;
         }
         
         private string[] ReadFile(string filePath)
@@ -198,7 +190,7 @@ namespace WindowsFormsApp1
                         i++;
                     }
                 }
-                MessageBox.Show(file.ToString());
+                
                 return file;
             } catch (Exception e) 
             {
@@ -209,19 +201,9 @@ namespace WindowsFormsApp1
 
         private string ParseUnkownChar(string s)
         {
-            StringBuilder sb = new StringBuilder(s);
-            
-            for (int i = 0; i < s.Length; i++)
-            {
-                if (sb[i].Equals('�'))
-                {
-                    sb[i] = ' '; // index starts at 0!
-                } else if (sb[i].Equals(','))
-                {
-                    sb[i] = '.';
-                }
-            }
-            return sb.ToString();
+            s = s.Replace("�", String.Empty);
+            s = s.Replace(" ", String.Empty);
+            return s;
         }
         private bool FileValid(string file)
         {
@@ -243,7 +225,7 @@ namespace WindowsFormsApp1
                 bool uploadSuccesful = new Sql().Upload(outputArr);
                 if (uploadSuccesful)
                 {
-                    StatusField.Text = "Upload successfull.";
+                    StatusField.Text = "Upload successful.";
                 }
                 else
                 {
