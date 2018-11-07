@@ -12,9 +12,8 @@ namespace WindowsFormsApp1
             try
             {
                 dbConn.Open();
-                data = FormatData(data);
-                //SendData(data, dbConn);
-                MessageBox.Show(data.ToString());
+                var floatData = FormatData(data);
+                SendData(floatData, dbConn);
                 return true;
             }
             catch (Exception e)
@@ -24,19 +23,40 @@ namespace WindowsFormsApp1
             } 
         }
 
-        private void SendData(string[] data, MySqlConnection dbConn)
+        private void SendData(float[] data, MySqlConnection dbConn)
         {
+            var sqlStmt = new MySqlCommand {CommandText = "INSERT INTO milkdata(date,milkings,milkamount,avrmilkamount) VALUES(?date,?milkings,?milkamount,?avrmilkamount)"};
+            sqlStmt.Connection = dbConn;
             
-            throw new NotImplementedException();
-        }
-
-        private string[] FormatData(string[] data)
-        {
-            string[] output = new string[data.Length+1];
-            output[0] = DateTime.Today.ToString("dd-MM-yyyy");
+            MySqlDbType[] dbTypes = {MySqlDbType.Int16, 
+                MySqlDbType.Float, 
+                MySqlDbType.Float};
+            string[] tableVar = {"?milkings",
+                "?milkamount",
+                "?avrmilkamount"};
+            sqlStmt.Parameters.Add("?date", MySqlDbType.Date).Value = DateTime.Today;
             for (int i = 0; i < data.Length; i++)
             {
-                output[i + 1] = data[i];
+                if (i == 0)
+                {
+                    sqlStmt.Parameters.Add(tableVar[i], dbTypes[i]).Value = (int)data[1];
+                }
+                else
+                {
+                    sqlStmt.Parameters.Add(tableVar[i], dbTypes[i]).Value = data[i];
+                }
+            }
+            sqlStmt.ExecuteNonQuery(); 
+            dbConn.Close();
+        }
+
+        private float[] FormatData(string[] data)
+        {
+            float[] output = new float[data.Length];
+            
+            for (var i = 0; i < data.Length; i++)
+            {
+                output[i] = float.Parse(data[i]);
             }
             return output;
         }
