@@ -5,7 +5,7 @@ namespace WindowsFormsApp1
 {
     public class _DbConnection
     {
-        public MySqlConnection Connect()
+        public static MySqlConnection Connect()
         {
             //this creates a database to connect to
             var dbConn = new MySqlConnection("server=ADRESS;database=DATABASENAME;uid=USERNAME;pwd=PASSWORD;");
