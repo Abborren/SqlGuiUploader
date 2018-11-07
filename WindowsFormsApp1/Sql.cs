@@ -47,7 +47,7 @@ namespace WindowsFormsApp1
             sqlStmt.Parameters.Add("?date", MySqlDbType.Date).Value = DateTime.Today;
             for (var i = 0; i < data.Length; i++)
                 if (i == 0)
-                    sqlStmt.Parameters.Add(tableVar[i], dbTypes[i]).Value = (int) data[1];
+                    sqlStmt.Parameters.Add(tableVar[i], dbTypes[i]).Value = (int) data[0];
                 else
                     sqlStmt.Parameters.Add(tableVar[i], dbTypes[i]).Value = data[i];
             sqlStmt.ExecuteNonQuery();
