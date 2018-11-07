@@ -37,12 +37,14 @@ namespace WindowsFormsApp1
             this.pathField = new System.Windows.Forms.TextBox();
             this.submitButton = new System.Windows.Forms.Button();
             this.StatusField = new System.Windows.Forms.TextBox();
+            this.LastUploadBox = new System.Windows.Forms.TextBox();
+            this.LastUploadLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // Path
+            // pathField
             // 
             this.pathField.Location = new System.Drawing.Point(13, 13);
-            this.pathField.Name = "Path";
+            this.pathField.Name = "pathField";
             this.pathField.ReadOnly = true;
             this.pathField.Size = new System.Drawing.Size(532, 20);
             this.pathField.TabIndex = 1;
@@ -55,8 +57,7 @@ namespace WindowsFormsApp1
             this.submitButton.TabIndex = 0;
             this.submitButton.Text = "Upload";
             this.submitButton.UseVisualStyleBackColor = true;
-            this.submitButton.Click += new EventHandler(this.submitButton_Click);
-
+            this.submitButton.Click += new System.EventHandler(this.submitButton_Click);
             // 
             // StatusField
             // 
@@ -66,6 +67,23 @@ namespace WindowsFormsApp1
             this.StatusField.Size = new System.Drawing.Size(111, 20);
             this.StatusField.TabIndex = 2;
             // 
+            // LastUploadBox
+            // 
+            this.LastUploadBox.Location = new System.Drawing.Point(235, 53);
+            this.LastUploadBox.Name = "LastUploadBox";
+            this.LastUploadBox.ReadOnly = true;
+            this.LastUploadBox.Size = new System.Drawing.Size(129, 20);
+            this.LastUploadBox.TabIndex = 3;
+            // 
+            // LastUploadLabel
+            // 
+            this.LastUploadLabel.AutoSize = true;
+            this.LastUploadLabel.Location = new System.Drawing.Point(162, 56);
+            this.LastUploadLabel.Name = "LastUploadLabel";
+            this.LastUploadLabel.Size = new System.Drawing.Size(67, 13);
+            this.LastUploadLabel.TabIndex = 4;
+            this.LastUploadLabel.Text = "Last Upload:";
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -74,6 +92,8 @@ namespace WindowsFormsApp1
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(557, 261);
+            this.Controls.Add(this.LastUploadLabel);
+            this.Controls.Add(this.LastUploadBox);
             this.Controls.Add(this.StatusField);
             this.Controls.Add(this.pathField);
             this.Controls.Add(this.submitButton);
@@ -225,6 +245,7 @@ namespace WindowsFormsApp1
                 bool uploadSuccesful = new Sql().Upload(outputArr);
                 if (uploadSuccesful)
                 {
+                    LastUploadBox.Text = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
                     StatusField.Text = "Upload successful.";
                 }
                 else
@@ -240,6 +261,9 @@ namespace WindowsFormsApp1
         }
 
         #endregion
+
+        private TextBox LastUploadBox;
+        private Label LastUploadLabel;
     }
     
         
