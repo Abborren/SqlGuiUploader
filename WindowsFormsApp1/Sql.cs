@@ -20,44 +20,45 @@ namespace WindowsFormsApp1
             {
                 MessageBox.Show(e.ToString());
                 return false;
-            } 
+            }
         }
 
         private void SendData(float[] data, MySqlConnection dbConn)
         {
-            var sqlStmt = new MySqlCommand {CommandText = "INSERT INTO milkdata(date,milkings,milkamount,avrmilkamount) VALUES(?date,?milkings,?milkamount,?avrmilkamount)"};
-            sqlStmt.Connection = dbConn;
-            
-            MySqlDbType[] dbTypes = {MySqlDbType.Int16, 
-                MySqlDbType.Float, 
-                MySqlDbType.Float};
-            string[] tableVar = {"?milkings",
-                "?milkamount",
-                "?avrmilkamount"};
-            sqlStmt.Parameters.Add("?date", MySqlDbType.Date).Value = DateTime.Today;
-            for (int i = 0; i < data.Length; i++)
+            var sqlStmt = new MySqlCommand
             {
+                CommandText =
+                    "INSERT INTO milkdata(date,milkings,milkamount,avrmilkamount) VALUES(?date,?milkings,?milkamount,?avrmilkamount)"
+            };
+            sqlStmt.Connection = dbConn;
+
+            MySqlDbType[] dbTypes =
+            {
+                MySqlDbType.Int16,
+                MySqlDbType.Float,
+                MySqlDbType.Float
+            };
+            string[] tableVar =
+            {
+                "?milkings",
+                "?milkamount",
+                "?avrmilkamount"
+            };
+            sqlStmt.Parameters.Add("?date", MySqlDbType.Date).Value = DateTime.Today;
+            for (var i = 0; i < data.Length; i++)
                 if (i == 0)
-                {
-                    sqlStmt.Parameters.Add(tableVar[i], dbTypes[i]).Value = (int)data[1];
-                }
+                    sqlStmt.Parameters.Add(tableVar[i], dbTypes[i]).Value = (int) data[1];
                 else
-                {
                     sqlStmt.Parameters.Add(tableVar[i], dbTypes[i]).Value = data[i];
-                }
-            }
-            sqlStmt.ExecuteNonQuery(); 
+            sqlStmt.ExecuteNonQuery();
             dbConn.Close();
         }
 
         private float[] FormatData(string[] data)
         {
-            float[] output = new float[data.Length];
-            
-            for (var i = 0; i < data.Length; i++)
-            {
-                output[i] = float.Parse(data[i]);
-            }
+            var output = new float[data.Length];
+
+            for (var i = 0; i < data.Length; i++) output[i] = float.Parse(data[i]);
             return output;
         }
     }

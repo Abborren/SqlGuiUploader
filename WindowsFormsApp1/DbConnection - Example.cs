@@ -18,12 +18,9 @@ namespace WindowsFormsApp1
             }
             catch (Exception ex)
             {
-                
-                Console.WriteLine("Connection failed error message: "+ex);
+                Console.WriteLine("Connection failed error message: " + ex);
                 throw;
             }
-
-            
         }
     }
 }
