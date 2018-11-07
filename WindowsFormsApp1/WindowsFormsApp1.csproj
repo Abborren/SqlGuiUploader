@@ -97,11 +97,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="NewFile1" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Example file" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
